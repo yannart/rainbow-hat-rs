@@ -1,0 +1,17 @@
+[package]
+name = "rainbow-hat-rs"
+version = "0.1.0"
+authors = ["Yann Nicolas"]
+edition = "2018"
+description = "Rust Driver for the Rainbow HAT for Raspberry Pi."
+readme = "README.md"
+homepage = "https://github.com/yannart/rainbow-hat-rs/"
+repository = "https://github.com/yannart/rainbow-hat-rs/"
+license = "MIT"
+keywords = ["raspberry", "sensor", "display", "button", "rainbow hat", "rainbow", "hat"]
+categories = ["hardware-support", "embedded", "science::robotics"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rppal = "0.11.3"
