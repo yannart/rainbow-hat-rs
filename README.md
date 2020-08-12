@@ -1,5 +1,5 @@
 
-# Rust driver for Rainbox HAT
+# Rust driver for Rainbow HAT
 This repository contains an unofficial Rust driver library for [Rainbow HAT](https://shop.pimoroni.com/products/rainbow-hat-for-android-things), for use with Raspberry Pi OS on your Raspberry Pi.  
 For the official Python driver see: https://github.com/pimoroni/rainbow-hat.  
 For the official AndroidThings driver see: https://github.com/androidthings/contrib-drivers/tree/master/rainbowhat.  
