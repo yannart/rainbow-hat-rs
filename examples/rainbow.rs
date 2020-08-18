@@ -10,7 +10,6 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     loop {
         let mut apa102 = APA102::new()?;
-        apa102.setup()?;
 
         // For each rainbow light
         for x in 0..7 {

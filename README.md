@@ -33,11 +33,12 @@ Call `new()` on any of the peripherals to construct a new instance.
 use rainbow_hat_rs::lights::Lights;
 use rainbow_hat_rs::alphanum4::Alphanum4;
 use rainbow_hat_rs::touch::Buttons;
+use rainbow_hat_rs::apa102::APA102;
 
-
-let lights = Lights::new()?;
-let buttons = Buttons::new()?;
-let alphanum = Alphanum4::new()?;
+let mut apa102 = APA102::new()?;
+let mut lights = Lights::new()?;
+let mut buttons = Buttons::new()?;
+let mut alphanum = Alphanum4::new()?;
 ```
 
 ## Examples
@@ -46,9 +47,6 @@ See folder [examples](examples/README.md).
 ## Multicolour LEDs
 ```rust
 let mut apa102 = APA102::new()?;
-
-// Turn on red and green lights
-lights.rgb(true, true, false);
 
  // Sets color for all LED.
  apa102.set_all(255, 0, 0, 0.5);
