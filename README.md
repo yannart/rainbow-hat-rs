@@ -9,7 +9,7 @@ This library depends on https://github.com/golemparts/rppal for access to the Ra
 Current periferials supported:
 | Periferial                             | Supported | Structs                                |
 |----------------------------------------|-----------|----------------------------------------|
-| Multicolour LEDs                       |           |                                        |
+| Multicolour LEDs                       | X         | rainbow_hat_rs::apa102::APA102         |
 | Four 14-segment alphanumeric displays  | X         | rainbow_hat_rs::alphanum4::Alphanum4   |
 | Three capacitive touch buttons         | X         | rainbow_hat_rs::touch::Buttons         |
 | Temperature and pressure sensor        |           |                                        |
@@ -43,10 +43,27 @@ let alphanum = Alphanum4::new()?;
 ## Examples
 See folder [examples](examples/README.md).
 
+## Multicolour LEDs
+```rust
+let mut apa102 = APA102::new()?;
+
+// Turn on red and green lights
+lights.rgb(true, true, false);
+
+ // Sets color for all LED.
+ apa102.set_all(255, 0, 0, 0.5);
+
+ // Sets color for first LED.
+ apa102.set_pixel(0, 0, 255, 0, 0.5);
+
+// Shows on the device.
+apa102.show()?;
+```
+
 ### Lights
 
 ```rust
-let lights = Lights::new()?;
+let mut lights = Lights::new()?;
 
 // Turn on red and green lights
 lights.rgb(true, true, false);
@@ -63,7 +80,7 @@ lights.green.toggle()
 
 ### Buttons
 ```rust
-let buttons = Buttons::new()?;
+let mut buttons = Buttons::new()?;
 
 // Identify if button A is pressed
 if buttons.a.is_pressed() {

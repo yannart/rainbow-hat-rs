@@ -15,3 +15,6 @@ categories = ["hardware-support", "embedded", "science::robotics"]
 
 [dependencies]
 rppal = "0.11.3"
+
+[dev-dependencies]
+palette = "0.5.0"

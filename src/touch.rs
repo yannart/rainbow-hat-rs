@@ -75,7 +75,7 @@ impl Button {
             let pin = self.pin.as_deref_mut().unwrap();
 
             // Touched if the pin is low
-            self.state =!pin.is_high();
+            self.state = !pin.is_high();
         }
 
         self.state
