@@ -14,7 +14,18 @@ pub const GPIO_TOUCH_C: u8 = 16;
 #[derive(Debug)]
 pub struct Button {
     bcm_pin: u8,
-    pin: InputPin,
+
+    /// Output pin to read from GPIO. Optional as not used in simulated mode.
+    pin: Option<Box<InputPin>>,
+
+    /// State of the button: true for pressed, false for released
+    state: bool,
+
+    /// In simulation mode, no interaction with the hardware is done to simplify testability.
+    simulation: bool, 
+
+    /// is the setup completed
+    is_setup: bool,
 }
 
 impl Button {
@@ -24,27 +35,63 @@ impl Button {
     ///
     /// * `bcm_pin` - GPIO pin number using the BCM pin numbering.
     pub fn new(bcm_pin: u8) -> Result<Button, Error> {
-        let gpio = Gpio::new()?;
-        let pin = gpio.get(bcm_pin)?.into_input();
 
         Ok(Self {
             bcm_pin,
-            pin,
+            pin: None,
+            state: false,
+            simulation: false,
+            is_setup: false,
         })
+    }
+
+    /// Initialize driver.
+    pub fn setup(&mut self) -> Result <(), Error> {
+        if !self.is_setup {
+
+            // Ignore Gpio initialization if in sumulation mode
+            if !self.simulation {
+                let gpio = Gpio::new()?;
+                let input = gpio.get(self.bcm_pin)?.into_input();
+                self.pin = Some(Box::new(input));
+            }
+
+            self.is_setup = true;
+        }
+        Ok(())
     }
 
     /// Get the state of the touch button.
     /// returns true if the touch button is pressed or false if it is not.
     pub fn is_pressed(&mut self) -> bool {
-        // Touched if the pin is low
-        !self.pin.is_high()
+
+        // Initialize the Gpio reading if not done yet
+        if !self.is_setup {
+            let _result = self.setup();
+        }
+
+        // Only perform actual pin write if not in simulation mode
+        if !self.simulation {
+            let pin = self.pin.as_deref_mut().unwrap();
+
+            // Touched if the pin is low
+            self.state = !pin.is_high();
+        }
+
+        self.state
     }
 }
 
 /// Set of buttons on the board.
 pub struct Buttons {
+
+    /// Button A
     pub a : Button,
+
+    /// Button B
     pub b: Button,
+
+    /// Button C
     pub c: Button,
 }
 
@@ -57,6 +104,13 @@ impl Buttons {
             b: Button::new(GPIO_TOUCH_B)?,
             c: Button::new(GPIO_TOUCH_C)?,
         })
+    }
+
+    /// Enables simulation mode.
+    pub fn enable_simulation(&mut self) {
+        self.a.simulation = true;
+        self.b.simulation = true;
+        self.c.simulation = true;
     }
 }
 
@@ -82,5 +136,86 @@ impl std::fmt::Display for Error {
 impl From<rppal::gpio::Error> for Error {
     fn from(err: rppal::gpio::Error) -> Error {
         Error::Gpio(err)
+    }
+}
+
+/// Unit tests
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Tests the setup of the button.
+    #[test]
+    fn test_button_setup() -> Result<(), Error> {
+        let mut button = Button::new(GPIO_TOUCH_A)?;
+
+        // enable simulation
+        button.simulation = true;
+
+        // Not setup
+        assert!(button.is_setup == false);
+
+        // Force setup
+        let _result = button.setup();
+
+        assert!(button.is_setup == true);
+
+        Ok(())
+    }
+
+    /// Tests when a button is pressed.
+    #[test]
+    fn test_button_is_pressed() -> Result<(), Error> {
+        let mut button = Button::new(GPIO_TOUCH_A)?;
+
+        // enable simulation
+        button.simulation = true;
+
+        // Not setup
+        assert!(button.is_setup == false);
+
+        // Lazy setup
+        // For simulation the button is not pressed by default
+        assert!(button.is_pressed() == false);
+        assert!(button.is_setup == true);
+
+        // Force the state
+        button.state = true;
+        assert!(button.is_pressed() == true);
+
+        Ok(())
+    }
+
+    /// Tests the setup of the button.
+    #[test]
+    fn test_buttons_new() -> Result<(), Error> {
+        let buttons = Buttons::new()?;
+
+        // Verify the buttons use the right pin
+        assert!(buttons.a.bcm_pin == 21);
+        assert!(buttons.b.bcm_pin == 20);
+        assert!(buttons.c.bcm_pin == 16);
+
+        Ok(())
+    }
+
+    /// Tests to enable the simulation.
+    #[test]
+    fn test_buttons_enable_simulation() -> Result<(), Error> {
+        let mut buttons = Buttons::new()?;
+
+        // Simulation off by default
+        assert!(!buttons.a.simulation);
+        assert!(!buttons.b.simulation);
+        assert!(!buttons.c.simulation);
+
+        // Turn on simulation
+        buttons.enable_simulation();
+
+        assert!(buttons.a.simulation);
+        assert!(buttons.b.simulation);
+        assert!(buttons.c.simulation);
+
+        Ok(())
     }
 }
