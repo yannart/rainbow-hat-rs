@@ -1,6 +1,6 @@
 [package]
 name = "rainbow-hat-rs"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Yann Nicolas"]
 edition = "2018"
 description = "Rust Driver for the Rainbow HAT for Raspberry Pi."
