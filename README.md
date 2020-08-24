@@ -14,7 +14,7 @@ Current periferials supported:
 | Three capacitive touch buttons         | X         | rainbow_hat_rs::touch::Buttons         |
 | Temperature and pressure sensor        |           |                                        |
 | Blue, green and red LEDs               | X         | rainbow_hat_rs::lights::Lights         |
-| Piezo buzzer                           |           |                                        |
+| Piezo buzzer                           | X         | rainbow_hat_rs::buzzer::Buzzer         |
 
 ## References
 * https://pinout.xyz/pinout/rainbow_hat
@@ -34,11 +34,13 @@ use rainbow_hat_rs::lights::Lights;
 use rainbow_hat_rs::alphanum4::Alphanum4;
 use rainbow_hat_rs::touch::Buttons;
 use rainbow_hat_rs::apa102::APA102;
+use rainbow_hat_rs::buzzer::Buzzer;
 
 let mut apa102 = APA102::new()?;
 let mut lights = Lights::new()?;
 let mut buttons = Buttons::new()?;
 let mut alphanum = Alphanum4::new()?;
+let mut buzzer = Buzzer::new()?;
 ```
 
 ## Examples
@@ -93,6 +95,14 @@ let mut alphanum = Alphanum4::new()?;
 // Print a message on the display
 alphanum.print_str("1234", false);
 alphanum.show()?;
+```
+
+### Buzzer
+```rust
+let mut buzzer = Buzzer::new()?;
+
+// Play a note
+buzzer.midi_note(69, 0.3)?;
 ```
 
 ## Caution
