@@ -9,8 +9,7 @@ install:
   - cargo install cross || true
   - source ~/.cargo/env || true
 script:
-  - cross build --all-features --target $TARGET
-  - cross build --all-features --target $TARGET --release
+  - cross test --target $TARGET --release
 env:
   - TARGET=armv7-unknown-linux-gnueabihf
   - TARGET=armv7-unknown-linux-musleabihf
