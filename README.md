@@ -31,7 +31,7 @@ Add a dependency for `rainbow-hat-rs` to your `Cargo.toml`.
 
 ```toml
 [dependencies]
-rainbow-hat-rs = "0.2.0"
+rainbow-hat-rs = "0.2.1"
 ```
 
 Call `new()` on any of the peripherals to construct a new instance.
