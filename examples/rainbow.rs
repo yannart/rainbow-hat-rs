@@ -2,7 +2,7 @@ use std::error::Error;
 use std::thread;
 use std::time::{Duration,SystemTime};
 use rainbow_hat_rs::apa102::APA102;
-use palette::{Hsv, Srgb};
+use palette::{Hsv, Srgb, FromColor};
 
 /// Displays changing colors on the rainbow lights.
 // The crate `palette` is used to convert from HSV to RGB colors.
@@ -23,7 +23,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
             // Obtains RGB from hue
             let hsv = Hsv::new(hue, 1.0, 1.0);
-            let rgb: Srgb = Srgb::from(hsv);
+            let rgb: Srgb = Srgb::from_color(hsv);
             let r = (rgb.red * 255.0).round() as u8;
             let g = (rgb.green * 255.0).round() as u8;
             let b = (rgb.blue * 255.0).round() as u8;
