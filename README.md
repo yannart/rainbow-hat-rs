@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.com/yannart/rainbow-hat-rs.svg?branch=master)](https://travis-ci.com/yannart/rainbow-hat-rs)
 [![](http://meritbadge.herokuapp.com/rainbow-hat-rs)](https://crates.io/crates/rainbow-hat-rs)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Minimum rustc version](https://img.shields.io/badge/rustc-v1.33.0-lightgray.svg)](https://blog.rust-lang.org/2019/02/28/Rust-1.33.0.html)
+[![Minimum rustc version](https://img.shields.io/badge/rustc-v1.45.0-lightgray.svg)](https://blog.rust-lang.org/2019/02/28/Rust-1.45.0.html)
 [![Documentation](https://docs.rs/rainbow-hat-rs/badge.svg)](https://docs.rs/rainbow-hat-rs)
 
 This repository contains an unofficial Rust driver library for [Rainbow HAT](https://shop.pimoroni.com/products/rainbow-hat-for-android-things), for use with Raspberry Pi OS on your Raspberry Pi.  

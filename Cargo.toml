@@ -1,6 +1,6 @@
 [package]
 name = "rainbow-hat-rs"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Yann Nicolas"]
 edition = "2018"
 description = "Rust Driver for the Rainbow HAT for Raspberry Pi."
@@ -14,7 +14,7 @@ categories = ["hardware-support", "embedded", "science::robotics"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-rppal = "0.11.3"
+rppal = "0.12.0"
 
 [dev-dependencies]
-palette = "0.5.0"
+palette = "0.6.0"
